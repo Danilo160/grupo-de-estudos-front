@@ -1,0 +1,30 @@
+.searchbox{
+    display: flex;
+    font-size: 15px;
+    padding: 15px;
+    width: 83%;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/1296/1296902.png");
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: 1.3rem;
+    border-radius: 15px;
+    border: solid 1px;
+    box-shadow: 0px 1px 15px #4446;
+    transition: 0.4s ease-out;
+    text-align: center;
+    background-color:#F2F1EB;
+
+  }
+
+.searchbox-wrap{
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  
+}
+
+
+  
