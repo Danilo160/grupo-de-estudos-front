@@ -11,21 +11,58 @@ Modal.setAppElement("#root");
 export const MyGroupsResullt = (props) => {
   
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [groupId, setGroupId] = useState("")
   const [groupName, setGroupName] = useState("")
   const [groupDesc, setGroupDesc] = useState("")
   const [groupMeta, setGroupMeta] = useState("")
   const [groupDataEncontros, setGropDataEncontros] = useState("")
   const [groupMaterial, setGroupMaterial] = useState("")
+  const [groupMembers, setGroupMembers] = useState([])
 
   const [loading, setLoading] = useState(true)
 
+  function exitGroup(e){
+    e.preventDefault()
+    alert(groupId)
+    console.log(groupMembers.indexOf(userId))
 
-  function openModal(nome,descricao,meta,data_encontros,material) {
+/*     var data = JSON.stringify({
+      membro:userId
+    })
+
+    var requestOptions = {
+      method: 'PUT',
+      body:data,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      redirect: 'follow'
+    };
+    
+    fetch(`http://localhost:5000/grupo/remove-membro/id=${groupId}`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+         console.log(data)
+         window.location.reload()
+         
+      }   
+      
+      ) */
+
+
+  
+  }
+
+  function openModal(id, nome,descricao,meta,data_encontros,material,membros) {
+    setGroupId(id)
     setGroupName(nome)
     setGroupDesc(descricao)
     setGroupMeta(meta)
     setGropDataEncontros(data_encontros)
     setGroupMaterial(material)
+    setGroupMembers(membros)
     setIsOpen(true);
     
   }
@@ -73,7 +110,7 @@ export const MyGroupsResullt = (props) => {
                 <h5 style={{fontSize:"15px", color:"#305F86"}}>{item.nome}</h5>
                 <img className='imageGroupResults' src='https://cdn-icons-png.flaticon.com/512/2995/2995433.png' alt='Imagem ilustrativa do grupo'/>
                 {/* <h2 style={{fontSize:"10px", color:"#305F86"}}>{item.descricao}</h2> */}
-                <button className='buttonGroup' onClick={() => openModal(item.nome, item.descricao, item.meta, item.data_encontros, item.material)} >Ver detalhes</button>
+                <button className='buttonGroup' onClick={() => openModal(item._id, item.nome, item.descricao, item.meta, item.data_encontros, item.material, item.membros)} >Ver detalhes</button>
 
                   <Modal
                     isOpen={modalIsOpen}
@@ -93,9 +130,15 @@ export const MyGroupsResullt = (props) => {
                       <div><p className='textModal'><b>Metas: </b>{groupMeta}</p></div>
                       <div><p className='textModal'><b>Encontros: </b>{groupDataEncontros}</p></div>
                       <div><p className='textModal'><b>Material: </b><span onClick={render} className='linkModal'>material.pdf</span></p></div>
-                      <div><button onClick= {(e)=>{e.preventDefault(); alert("Funcionalidade não inclusa!")}} title='Sair do grupo' className="buttonExitGroup">
+                      {groupMembers[0] === userId?
+                      <div><button onClick= {exitGroup} title='Sair do grupo' className="buttonExitGroup">
+                      <span style={{fontSize:"15px"}}>Excluir grupo</span>
+                      </button></div>:
+                       <div><button onClick= {exitGroup} title='Sair do grupo' className="buttonExitGroup">
                       <span style={{fontSize:"15px"}}>Sair do grupo</span>
-                      </button></div>
+                      </button></div> 
+                      
+                      }
                       
                     </form>
                   </Modal>

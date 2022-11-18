@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { customStyles } from './ModalStyle';
 //const userName = window.localStorage.getItem('nome')
 const userId = window.localStorage.getItem("id");
+const userToken = window.localStorage.getItem("token");
 
 Modal.setAppElement("#root");
 
@@ -26,11 +27,12 @@ export const SearchGroupsResullt = (props) => {
    }
 
     function getId(id){
-      alert("MEU ID: " + userId)
+      var idGroup = id;
+      alert("Você entrou no GRUPO!")
 
       var data = JSON.stringify({
-        id,
-        membro:[userId],
+        membro:userId,
+        token: userToken
       })
 
       var requestOptions = {
@@ -44,23 +46,16 @@ export const SearchGroupsResullt = (props) => {
         redirect: 'follow'
       };
       
-      fetch("http://localhost:5000/grupo/update-membro", requestOptions)
+      fetch(`http://localhost:5000/grupo/update-membro/id=${idGroup}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
            console.log(data)
+           window.location.reload()
            
         }   
         
         )
-/*       allGroupsFilter.forEach(item => {
-        console.log(item.membros)
-        if(item.id===id){
-          item.membros.push(userId)
-          console.log(item.membros)
-          alert(`Você entrou no grupo!\n Os membros são: ${item.membros}`)
-          //Em seguida só chamar um put Group
-        } 
-      }); */
+
     }
 
     let allGroupsFilter = []
