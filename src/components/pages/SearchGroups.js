@@ -3,7 +3,6 @@ import Navbar from "../Navbar/Navbar"
 import {Busca} from "../Busca/Busca"
 import {SearchGroupsResullt} from "../Resultado/SearchGroupsResult";
 const userToken = window.localStorage.getItem("token");
-//import data from "../dataGroup";
 
 export const SearchGroups = () => {
 
@@ -41,9 +40,7 @@ export const SearchGroups = () => {
          console.log(data)
          setDataGroup(data)
          
-      }   
-      
-      )
+      }).catch(error =>{if(error){ alert("Não foi possível resgatar grupos! Falha no servidor!")}})
 
   }, []);
 

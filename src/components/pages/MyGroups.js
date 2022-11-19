@@ -405,9 +405,7 @@ export const MyGroups = () => {
          console.log(data)
          setDataGroup(data)
          
-      }   
-      
-      )
+      }).catch(error =>{if(error){ alert("Não foi possível resgatar grupos! Falha no servidor!")}})
 
   }, []);
 

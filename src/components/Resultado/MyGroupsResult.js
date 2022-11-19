@@ -4,6 +4,7 @@ import ReactLoading from 'react-loading';
 import {customStyles} from './ModalStyle';
 //const userName = window.localStorage.getItem('nome')
 const userId = window.localStorage.getItem("id");
+const userToken = window.localStorage.getItem("token");
 
 
 Modal.setAppElement("#root");
@@ -21,37 +22,66 @@ export const MyGroupsResullt = (props) => {
 
   const [loading, setLoading] = useState(true)
 
+  function deleteGroup(e){
+    e.preventDefault()
+    if (window.confirm('Você tem certeza que deseja excluir o grupo?')) {
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+          'x-access-token': userToken
+        },
+        redirect: 'follow'
+      };
+      
+      fetch(`http://localhost:5000/delete-grupo/id=${groupId}`, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+           console.log(data)
+           window.location.reload()
+           
+        }).catch(error =>{if(error){ alert("A exclusão do grupo falhou! Verifique a conexão!")}})
+ 
+    }
+
+
+    }
+
   function exitGroup(e){
     e.preventDefault()
-    alert(groupId)
-    console.log(groupMembers.indexOf(userId))
-
-/*     var data = JSON.stringify({
-      membro:userId
-    })
-
-    var requestOptions = {
-      method: 'PUT',
-      body:data,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      redirect: 'follow'
-    };
+    //alert(groupId)
     
-    fetch(`http://localhost:5000/grupo/remove-membro/id=${groupId}`, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-         console.log(data)
-         window.location.reload()
-         
-      }   
+    if (window.confirm('Você tem certeza que deseja sair do grupo?')) {
+      var index = groupMembers.indexOf(userId)
+      groupMembers.splice(index,1)
+      var data = JSON.stringify({
+        membros:groupMembers,
+        token: userToken
+      })
+
+      var requestOptions = {
+        method: 'PUT',
+        body:data,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*"
+        },
+        redirect: 'follow'
+      };
       
-      ) */
+      fetch(`http://localhost:5000/grupo/remove-membro/id=${groupId}`, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+          window.location.reload()
+          
+        }).catch(error =>{if(error){ alert("A saída do grupo falhou! Verifique a conexão!")}})
 
-
+    }
   
   }
 
@@ -131,7 +161,7 @@ export const MyGroupsResullt = (props) => {
                       <div><p className='textModal'><b>Encontros: </b>{groupDataEncontros}</p></div>
                       <div><p className='textModal'><b>Material: </b><span onClick={render} className='linkModal'>material.pdf</span></p></div>
                       {groupMembers[0] === userId?
-                      <div><button onClick= {exitGroup} title='Sair do grupo' className="buttonExitGroup">
+                      <div><button onClick= {deleteGroup} title='Excluir grupo' className="buttonExitGroup">
                       <span style={{fontSize:"15px"}}>Excluir grupo</span>
                       </button></div>:
                        <div><button onClick= {exitGroup} title='Sair do grupo' className="buttonExitGroup">

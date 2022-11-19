@@ -1,12 +1,17 @@
 import React,{useState,useEffect} from "react";
 import ReactLoading from 'react-loading';
-const userToken = window.localStorage.getItem("token")
+//const userToken = window.localStorage.getItem("token")
 
 export const Login = () => {
+ 
 
-  if(userToken!==""){
-    window.location.href = "/profile"
-  }
+  useEffect(()=>{
+/*     if(userToken!==""){
+      window.location.href = "/profile"
+    } */
+    window.localStorage.setItem("token","")
+  },[])
+  
 
   const [loading, setLoading] = useState(false)
 

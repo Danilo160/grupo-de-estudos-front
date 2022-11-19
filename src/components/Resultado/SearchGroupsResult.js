@@ -28,7 +28,6 @@ export const SearchGroupsResullt = (props) => {
 
     function getId(id){
       var idGroup = id;
-      alert("Você entrou no GRUPO!")
 
       var data = JSON.stringify({
         membro:userId,
@@ -50,11 +49,12 @@ export const SearchGroupsResullt = (props) => {
         .then((res) => res.json())
         .then((data) => {
            console.log(data)
+           alert("Você entrou no GRUPO! Para ver detalhes, consulte a aba MEUS GRUPOS!")
            window.location.reload()
            
         }   
         
-        )
+        ).catch(error =>{if(error){ alert("Não foi possível entrar no grupo! Falha no servidor!")}})
 
     }
 
