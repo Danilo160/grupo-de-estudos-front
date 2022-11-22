@@ -1,6 +1,10 @@
 import React,{useState,useEffect} from "react";
 import ReactLoading from 'react-loading';
+import Modal from "react-modal"
+import {customStyles} from '../Resultado/ModalStyle'
 //const userToken = window.localStorage.getItem("token")
+
+Modal.setAppElement("#root");
 
 export const Login = () => {
  
@@ -15,12 +19,37 @@ export const Login = () => {
 
   const [loading, setLoading] = useState(false)
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+    
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+    setBorderColorEmailV("#97AEC3")
+    setBorderColorNovaSenha("#97AEC3")
+    setLabelV("")
+    setColorLabelV("")
+    setPaddingV("")
+  }
+
+  const [emailV, setEmailV] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [labelV, setLabelV] = useState("");
+
+  const [colorLabelV, setColorLabelV] = useState("")
+  const [borderColorEmailV, setBorderColorEmailV] = useState("#97AEC3")
+  const [borderColorNovaSenha, setBorderColorNovaSenha] = useState("#97AEC3")
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [label, setLabel] = useState("");
 
-  const [colorLabel, setColorLabel] = useState("")
 
+
+  const [colorLabel, setColorLabel] = useState("")
   const [borderColorEmail, setBorderColorEmail] = useState("#97AEC3")
   const [borderColorSenha, setBorderColorSenha] = useState("#97AEC3")
 
@@ -28,9 +57,90 @@ export const Login = () => {
   const [verifica, setVerifica] = useState(false)
   const [padding, setPadding] = useState("")
 
+  const [verificaV, setVerificaV] = useState(false)
+  const [paddingV, setPaddingV] = useState("")
+
   useEffect(() => {
     verifica === false ? setColorLabel("lightcoral"): setColorLabel("lightgreen")
   }, [verifica]);
+
+  useEffect(() => {
+    verificaV === false ? setColorLabelV("lightcoral"): setColorLabelV("lightgreen")
+  }, [verificaV]);
+
+  const newPassword = (e) =>{
+    e.preventDefault();
+    setLoading(true)
+
+    var data = JSON.stringify({
+      email: emailV,
+      senha: novaSenha
+  
+    })
+
+    var requestOptions = {
+      method: 'PUT',
+      body: data,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      redirect: 'follow'
+    };
+    
+    fetch(`http://localhost:5000/aluno/update-password/`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        setPaddingV("2px")
+        if(emailV==="" && novaSenha===""){
+          setColorLabelV("lightcoral")
+          setBorderColorEmailV("lightcoral")
+          setBorderColorNovaSenha("lightcoral")
+          setLabelV("Erro! Alguns campos não foram definidos!")
+          setLoading(false)
+        }else{
+          if(emailV==="" && novaSenha!==""){
+            setColorLabelV("lightcoral")
+            setBorderColorEmailV("lightcoral")
+            setBorderColorNovaSenha("#97AEC3")
+            setLabelV("Erro! Alguns campos não foram definidos!")
+            setLoading(false)
+          }else{
+            if(emailV!=="" && novaSenha===""){
+              setColorLabelV("lightcoral")
+              setBorderColorEmailV("#97AEC3")
+              setBorderColorNovaSenha("lightcoral")
+              setLabelV("Erro! Alguns campos não foram definidos!")
+              setLoading(false)
+            }else{
+              if(data.mensagem==="Falha ao atualizar senha! Email não encontrado!"){
+                setColorLabelV("lightcoral")
+                setBorderColorEmailV("lightcoral")
+                setBorderColorNovaSenha("#97AEC3")
+                setLabelV(data.mensagem)
+                setLoading(false)  
+              }else{
+                if(data.mensagem==="Senha atualizada com sucesso!"){
+                  setColorLabelV("#97AEC3")
+                  setBorderColorEmailV("#97AEC3")
+                  setBorderColorNovaSenha("#97AEC3")
+                  setLabelV(data.mensagem)
+                  setColorLabelV("lightgreen")
+                  setLoading(false)
+                  window.location.reload()      
+                }    
+              }
+            }  
+          }
+        }
+      }   
+        
+    )
+    .catch(error =>{if(error){ setLoading(false);setLabelV("Falha no servidor!")}})
+    setVerificaV(false)
+
+  }
   
   const handleSubmit = (e) =>{
     e.preventDefault();
@@ -99,8 +209,6 @@ export const Login = () => {
                       setBorderColorSenha("#97AEC3")
                       setLabel("Login Realizado com Sucesso!")
                       setLoading(false)
-                      console.log(data.body)
-                      console.log(data.data)
                       window.localStorage.setItem("token", data.data);
                       window.localStorage.setItem("id", data.body.id);
                       window.localStorage.setItem("nome", data.body.nome);
@@ -161,8 +269,16 @@ export const Login = () => {
         </div>
 
         <p className="text">
-          Não possui registro? <a  style={{textDecoration:"none"}} href="/register">Cadastrar conta</a>
+          <span onClick={openModal} className='linkModal'> Esqueceu a senha?</span>
         </p>
+
+        <p className="text">
+          Não possui registro? <a  style={{textDecoration:"none"}} className='linkModal' href="/register">Cadastrar conta</a>
+          
+        </p>
+
+        
+
 
         <div className="divLabel">
           <p className="contentLabel" style={{backgroundColor: colorLabel, padding:padding}}>
@@ -171,6 +287,59 @@ export const Login = () => {
         </div>
         
       </form>
+
+      <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+
+        >
+          <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
+            <img src='https://cdn-icons-png.flaticon.com/512/463/463612.png' onClick={closeModal} alt="close" width={30} height={30} style={{cursor:'pointer'}}/>
+          </div>
+
+          <h2 className='titleModal'>{"Esqueceu a senha?"}</h2>
+
+          <form style={{marginTop:"50px", marginBottom:"50px", border:"none"}} onSubmit={newPassword}>
+            <div>
+              <input
+                type="email"
+                className="loginUser"
+                placeholder="Email"
+                style={{borderColor: borderColorEmailV}}
+                onChange={(e) => setEmailV(e.target.value)}
+              />
+            </div>
+
+            <div>
+              
+              <input
+                type="password"
+                placeholder="Nova senha"
+                style={{borderColor: borderColorNovaSenha}}
+                onChange={(e) => setNovaSenha(e.target.value)}
+              />
+            </div>
+
+            {loading===true?<div className="containerLoading">
+              <ReactLoading type={"spin"} color={"#528abe"} height={20} width={20} />
+            </div>: null}
+
+            <div className="divLabel">
+              <p className="contentLabel" style={{backgroundColor: colorLabelV, padding:paddingV}}>
+                <label className="Label">{labelV}</label>
+              </p>
+            </div>
+
+            <div><button title='Resetar senha' className="buttonResetPass" >
+            <span style={{fontSize:"15px"}}>Resetar senha</span>
+            </button></div>
+
+
+            
+          </form>
+      </Modal>
     
     </div>
   );

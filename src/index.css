@@ -370,6 +370,14 @@ button {
   color: rgba(255, 255, 255, 0.861);
 }
 
+.buttonResetPass{
+  width:fit-content; 
+  margin-top:30px; 
+  background-color: #8682c6;
+  border: solid 1px black;
+  color: rgba(255, 255, 255, 0.861);
+}
+
 @media (hover: hover) {
   button:hover {
     opacity: 0.8;

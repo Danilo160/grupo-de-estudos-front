@@ -37,7 +37,7 @@ export const Profile = () => {
 
       reader.onload = function () {
           base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
-          console.log(base64String);
+          //console.log(base64String);
 
           
       var data = JSON.stringify({
@@ -58,7 +58,7 @@ export const Profile = () => {
       fetch(`http://localhost:5000/aluno/update-photo/id=${userId}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
-           console.log(data)
+           //console.log(data)
            window.localStorage.setItem("foto",data.foto);
            window.location.reload();
         })
@@ -104,7 +104,7 @@ export const Profile = () => {
     fetch(`http://localhost:5000/aluno/update-photo/id=${userId}`, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-         console.log(data)
+         //console.log(data)
          window.localStorage.setItem("foto",data.foto);
          window.location.reload();
       })
@@ -132,8 +132,8 @@ export const Profile = () => {
 
         <p className="titleProfile">{"Meu perfil"}</p>
         
-        {image===""?<img src={noProfile} style={{opacity: 0.5}} id="userPhoto" alt="Foto de perfil" className="userPhoto" onClick={select}/>:
-        <img src={image} id="userPhoto" onClick={select} alt="Foto de perfil" className="userPhoto"/>}
+        {image===""?<img src={noProfile} style={{opacity: 0.5}} id="userPhoto" alt="Foto de perfil" title="Atualizar foto de perfil" className="userPhoto" onClick={select}/>:
+        <img src={image} id="userPhoto" onClick={select} alt="Foto de perfil" title="Atualizar foto de perfil" className="userPhoto"/>}
 
 
         <div className="buttonRemovePhoto" onClick={deletePhoto}><p>Remover foto</p></div>

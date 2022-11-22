@@ -41,8 +41,8 @@ function Navbar() {
           <div className="navbar-container container">
             <Link to="/profile" className="navbar-logo" onClick={closeMobileMenu}>
             
-            {userPhoto===null||userPhoto===""?<img src={noProfile} style={{opacity: 0.5}} alt="Meu perfil" className="imageLabelNav"/>:
-              <img src={"data:image/png;base64,"+userPhoto} alt="Meu perfil" className="imageLabelNav"/>} 
+            {userPhoto===null||userPhoto===""?<img src={noProfile} style={{opacity: 0.5}} alt="Meu perfil" title="Meu perfil" className="imageLabelNav"/>:
+              <img src={"data:image/png;base64,"+userPhoto} alt="Meu perfil" title="Meu perfil" className="imageLabelNav"/>} 
               <p className="titleNav">{text}</p>
             </Link>
 

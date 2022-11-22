@@ -402,7 +402,7 @@ export const MyGroups = () => {
     fetch("http://localhost:5000/grupos-de-estudos", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-         console.log(data)
+         //console.log(data)
          setDataGroup(data)
          
       }).catch(error =>{if(error){ alert("Não foi possível resgatar grupos! Falha no servidor!")}})
