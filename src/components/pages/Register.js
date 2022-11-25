@@ -46,7 +46,7 @@ export const Register = () => {
       redirect: 'follow'
     };
     
-    fetch("http://localhost:5000/aluno/cadastro", requestOptions)
+    fetch("https://grupo-de-estudos-back.onrender.com/aluno/cadastro", requestOptions)
       .then((res) => res.json())
       .then((data) => {
         setPadding("2px")

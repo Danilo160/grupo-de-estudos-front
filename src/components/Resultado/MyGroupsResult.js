@@ -37,7 +37,7 @@ export const MyGroupsResullt = (props) => {
         redirect: 'follow'
       };
       
-      fetch(`http://localhost:5000/delete-grupo/id=${groupId}`, requestOptions)
+      fetch(`https://grupo-de-estudos-back.onrender.com/delete-grupo/id=${groupId}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
            console.log(data)
@@ -73,7 +73,7 @@ export const MyGroupsResullt = (props) => {
         redirect: 'follow'
       };
       
-      fetch(`http://localhost:5000/grupo/remove-membro/id=${groupId}`, requestOptions)
+      fetch(`https://grupo-de-estudos-back.onrender.com/grupo/remove-membro/id=${groupId}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
           console.log(data)

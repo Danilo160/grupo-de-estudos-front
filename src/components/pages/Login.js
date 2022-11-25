@@ -89,7 +89,7 @@ export const Login = () => {
       redirect: 'follow'
     };
     
-    fetch(`http://localhost:5000/aluno/update-password/`, requestOptions)
+    fetch(`https://grupo-de-estudos-back.onrender.com/aluno/update-password/`, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         setPaddingV("2px")
@@ -163,7 +163,7 @@ export const Login = () => {
       redirect: 'follow'
     };
     
-    fetch("http://localhost:5000/aluno/login", requestOptions)
+    fetch("https://grupo-de-estudos-back.onrender.com/aluno/login", requestOptions)
       .then((res) => res.json())
       .then((data) => {
           

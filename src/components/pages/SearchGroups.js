@@ -34,7 +34,7 @@ export const SearchGroups = () => {
       redirect: 'follow'
     };
     
-    fetch("http://localhost:5000/grupos-de-estudos", requestOptions)
+    fetch("https://grupo-de-estudos-back.onrender.com/grupos-de-estudos", requestOptions)
       .then((res) => res.json())
       .then((data) => {
          //console.log(data)

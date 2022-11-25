@@ -45,7 +45,7 @@ export const SearchGroupsResullt = (props) => {
         redirect: 'follow'
       };
       
-      fetch(`http://localhost:5000/grupo/update-membro/id=${idGroup}`, requestOptions)
+      fetch(`https://grupo-de-estudos-back.onrender.com/grupo/update-membro/id=${idGroup}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
            console.log(data)

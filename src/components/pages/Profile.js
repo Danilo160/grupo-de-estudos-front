@@ -55,7 +55,7 @@ export const Profile = () => {
         redirect: 'follow'
       };
       
-      fetch(`http://localhost:5000/aluno/update-photo/id=${userId}`, requestOptions)
+      fetch(`https://grupo-de-estudos-back.onrender.com/aluno/update-photo/id=${userId}`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
            //console.log(data)
@@ -101,7 +101,7 @@ export const Profile = () => {
       redirect: 'follow'
     };
     
-    fetch(`http://localhost:5000/aluno/update-photo/id=${userId}`, requestOptions)
+    fetch(`https://grupo-de-estudos-back.onrender.com/aluno/update-photo/id=${userId}`, requestOptions)
       .then((res) => res.json())
       .then((data) => {
          //console.log(data)
